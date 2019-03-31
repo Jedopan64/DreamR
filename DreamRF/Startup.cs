@@ -20,6 +20,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using System.Configuration;
+
 
 namespace DreamRF
 {
@@ -37,24 +39,25 @@ namespace DreamRF
         {
             services.AddCors();            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
-            services.AddScoped<IUserService, UserService>();
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper();
+            //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("DreamRDb"));
+            services.AddScoped<IUserService, UserService>();
+            services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));            
+           
             services.Configure<RazorViewEngineOptions>(options =>
              {
                     options.ViewLocationExpanders.Add(new 
                     FeatureLocationExpander());
              });
-           
+            
              // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
-            /*
+            
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
@@ -88,7 +91,7 @@ namespace DreamRF
                     ValidateAudience = false
                 };
             });
-            */
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
