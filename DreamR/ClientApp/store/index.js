@@ -15,8 +15,7 @@ const store = new Vuex.Store({
   state: {
     auth: null,
     showAuthModal: false,
-    loading: false,
-    cart: []
+    loading: false,    
   }
 });
 

@@ -12,17 +12,7 @@ Vue.use(VueToastr, {
   defaultPosition: "toast-top-right"
 });
 
-// filters
-import { currency } from "./filters";
-
-Vue.filter("currency", currency);
-
 //import page components
-import Catalogue from "./pages/Catalogue.vue";
-import Product from "./pages/Product.vue";
-import Cart from "./pages/Cart.vue";
-import Checkout from "./pages/Checkout.vue";
-
 import axios from "axios";
 
 const initialStore = localStorage.getItem("store");
@@ -37,11 +27,7 @@ if (initialStore) {
 }
 
 const routes = [
-  { path: "/products", component: Catalogue },
-  { path: "/products/:slug", component: Product },
-  { path: "/cart", component: Cart },
-  { path: "/checkout", component: Checkout, meta: { requiresAuth: true } },
-  { path: "*", redirect: "/products" }
+  
 ];
 
 const router = new VueRouter({ mode: "history", routes: routes });

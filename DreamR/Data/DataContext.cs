@@ -5,12 +5,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DreamR.Data.Entities;
 
+
 namespace DreamR.Data{
- public class DataContext : IdentityDbContext<AppUser, AppRole, int> 
-    {   
-               
+ public class DataContext : IdentityDbContext<AppUser, AppRole, int>
+    {         
         public DataContext(DbContextOptions<DataContext> options) : base(options)
-        { }      
+        { }    
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        
+        }  
 
     }
 }

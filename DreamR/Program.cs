@@ -23,8 +23,8 @@ namespace DreamR
                 var services = scope.ServiceProvider;
                 var dbContext = services.GetRequiredService<DataContext>();
 
-                dbContext.Database.Migrate();
-                dbContext.EnsureSeeded();
+                dbContext.Database.Migrate(); 
+                      
             }
 
             host.Run();
