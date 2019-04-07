@@ -31,16 +31,45 @@ namespace DreamR
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
+          options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
       services.AddIdentity<AppUser, AppRole>()
           .AddEntityFrameworkStores<DataContext>()
-          .AddDefaultTokenProviders(); 
-      var provider = services.BuildServiceProvider();         
-      
-     
+          .AddDefaultTokenProviders();
+
+      services.AddAuthentication(options =>
+      {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      })
+      .AddJwtBearer(options =>
+      {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.ClaimsIssuer = Configuration["Authentication:JwtIssuer"];
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+          ValidateIssuer = true,
+          ValidIssuer = Configuration["Authentication:JwtIssuer"],
+
+          ValidateAudience = true,
+          ValidAudience = Configuration["Authentication:JwtAudience"],
+
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:JwtKey"])),
+
+          RequireExpirationTime = true,
+          ValidateLifetime = true,
+          ClockSkew = TimeSpan.Zero
+        };
+      });
 
       services.AddMvc();
+
+      var provider = services.BuildServiceProvider();
+      DbContextExtensions.UserManager = provider.GetService<UserManager<AppUser>>();
+      DbContextExtensions.RoleManager = provider.GetService<RoleManager<AppRole>>();
 
       services.Configure<RazorViewEngineOptions>(options =>
       {

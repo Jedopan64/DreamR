@@ -13,12 +13,17 @@ module.exports = (env) => {
             vendor: [
                 'bootstrap',
                 'bootstrap/dist/css/bootstrap.css',
+                "bootstrap/dist/css/bootstrap.min.css",
+                "bootstrap-vue",
+                "nprogress/nprogress.css",
                 'event-source-polyfill',
                 'isomorphic-fetch',
                 'jquery',
                 'vue',
                 'vue-router',
-                'vuex'
+                'vuex',
+                "axios"     
+                               
             ],
         },
         module: {

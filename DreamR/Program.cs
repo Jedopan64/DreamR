@@ -24,7 +24,7 @@ namespace DreamR
                 var dbContext = services.GetRequiredService<DataContext>();
 
                 dbContext.Database.Migrate(); 
-                      
+                dbContext.EnsureSeeded(); 
             }
 
             host.Run();
