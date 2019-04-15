@@ -14,13 +14,13 @@
     "vue-loader": "^11.1.4",
     "vue-router": "^2.8.1",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^2.7.0",
+    "webpack": "^3.11.0",
     "webpack-hot-middleware": "^2.24.3"
   },
   "dependencies": {
     "@deveodk/vue-toastr": "^1.0.4",
     "axios": "^0.18.0",
-    "bootstrap-vue": "^2.0.0-rc.16",
+    "bootstrap-vue": "^2.0.0-rc.18",
     "node-sass": "^4.11.0",
     "nprogress": "^0.2.0",
     "sass-loader": "^7.1.0",
