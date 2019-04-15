@@ -15,34 +15,37 @@ namespace DreamR.Features.Account
     {
       _userManager = userManager;
     }
+    
 
-    [HttpPost]
-    public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+  [HttpPost]
+  public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+  {
+    if (!ModelState.IsValid)
+      return BadRequest(ModelState);
+
+    var user = await _userManager.FindByEmailAsync(model.Email);
+
+    if (user != null)
+      return BadRequest("A user with that e-mail address already exists!");
+
+    user = new AppUser
     {
-      if (!ModelState.IsValid)
-        return BadRequest(ModelState);
+      FirstName = model.FirstName,
+      LastName = model.LastName,
+      Email = model.Email,
+      EmailConfirmed = true,
+      UserName = model.Email,
+      LockoutEnabled = true
+    };
 
-      var user = await _userManager.FindByEmailAsync(model.Email);
+    var registerResult = await _userManager.CreateAsync(user, model.Password);
 
-      if (user != null)
-        return BadRequest("A user with that e-mail address already exists!");
+    if (!registerResult.Succeeded)
+      return BadRequest(registerResult.Errors);
 
-      user = new AppUser
-      {
-        Email = model.Email,
-        EmailConfirmed = true,
-        UserName = model.Email,
-        LockoutEnabled = true
-      };
+    await _userManager.AddToRoleAsync(user, "Customer");
 
-      var registerResult = await _userManager.CreateAsync(user, model.Password);
-
-      if (!registerResult.Succeeded)
-        return BadRequest(registerResult.Errors);
-
-      await _userManager.AddToRoleAsync(user, "Customer");
-
-      return Ok();
-    }
+    return Ok();
   }
+}
 }
