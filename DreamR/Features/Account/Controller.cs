@@ -28,13 +28,13 @@ namespace DreamR.Features.Account
     if (user != null)
       return BadRequest("A user with that e-mail address already exists!");
 
-    user = new AppUser
+    var use = new AppUser
     {
       FirstName = model.FirstName,
       LastName = model.LastName,
+      UserName = model.UserName,
       Email = model.Email,
-      EmailConfirmed = true,
-      UserName = model.Email,
+      EmailConfirmed = true,      
       LockoutEnabled = true
     };
 

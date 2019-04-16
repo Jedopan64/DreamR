@@ -33,14 +33,14 @@ namespace DreamR.Data
 
     private static void AddUsers(DataContext context)
     {
-      if (UserManager.FindByEmailAsync("stu@ratcliffe.io").GetAwaiter().GetResult() == null)
+      if (UserManager.FindByEmailAsync("johnSmith@gmail.com").GetAwaiter().GetResult() == null)
       {
         var user = new AppUser
         {
-          FirstName = "Stu",
-          LastName = "Ratcliffe",
-          UserName = "stu@ratcliffe.io",
-          Email = "stu@ratcliffe.io",
+          FirstName = "John",
+          LastName = "Smith",
+          UserName = "JonnyS11",
+          Email = "johnSmith@gmail.com",
           EmailConfirmed = true,
           LockoutEnabled = false
         };
@@ -48,7 +48,7 @@ namespace DreamR.Data
         UserManager.CreateAsync(user, "Password1*").GetAwaiter().GetResult();
       }
 
-      var admin = UserManager.FindByEmailAsync("stu@ratcliffe.io").GetAwaiter().GetResult();
+      var admin = UserManager.FindByEmailAsync("johnSmith@gmail.com").GetAwaiter().GetResult();
 
       if (UserManager.IsInRoleAsync(admin, "Admin").GetAwaiter().GetResult() == false)
       {

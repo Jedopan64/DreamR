@@ -3,6 +3,9 @@
     <b-alert variant="danger" :show="regErrors !== null" dismissible @dismissed="regErrors = null">
       <div v-for="(error, index) in regErrors" :key="index">{{ error[0] }}</div>
     </b-alert>
+    <b-form-group label="Username">
+      <b-form-input v-model.trim="userName" />
+    </b-form-group>
     <b-form-group label="First Name">
       <b-form-input v-model.trim="firstName" />
     </b-form-group>
@@ -37,6 +40,7 @@ export default {
     return {
       firstName: "",
       lastName: "",
+      userName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -53,6 +57,7 @@ export default {
       const payload = {
         firstName: this.firstName,
         lastName: this.lastName,
+        userName: this.userName,
         email: this.email,
         password: this.password,
         confirmPassword: this.confirmPassword
@@ -64,6 +69,7 @@ export default {
           this.regErrors = null;
           this.firstName = "";
           this.lastName = "";
+          this.userName= "",
           this.email = "";
           this.password = "";
           this.confirmPassword = "";

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DreamR.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190415190056_Initial")]
+    [Migration("20190416085528_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
