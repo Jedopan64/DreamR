@@ -54,6 +54,28 @@ namespace DreamR.Data
       {
         UserManager.AddToRoleAsync(admin, "Admin");
       }
+
+      if (UserManager.FindByEmailAsync("mariobros@gmail.com").GetAwaiter().GetResult() == null)
+      {
+        var user = new AppUser
+        {
+          FirstName = "Mario",
+          LastName = "Bro",
+          UserName = "Mario420",
+          Email = "mariobros@gmail.com",
+          EmailConfirmed = true,
+          LockoutEnabled = false
+        };
+
+        UserManager.CreateAsync(user, "Password1*").GetAwaiter().GetResult();
+      }
+
+      var client = UserManager.FindByEmailAsync("mariobros@gmail.com").GetAwaiter().GetResult();
+
+      if (UserManager.IsInRoleAsync(client, "Customer").GetAwaiter().GetResult() == false)
+      {
+        UserManager.AddToRoleAsync(client, "Customer");
+      }
     }   
   }
 }
