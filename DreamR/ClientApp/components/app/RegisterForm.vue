@@ -6,12 +6,6 @@
     <b-form-group label="Username">
       <b-form-input v-model.trim="userName" />
     </b-form-group>
-    <b-form-group label="First Name">
-      <b-form-input v-model.trim="firstName" />
-    </b-form-group>
-    <b-form-group label="Last Name">
-      <b-form-input v-model.trim="lastName" />
-    </b-form-group>
     <b-form-group label="E-mail">
       <b-form-input v-model.trim="email" />
     </b-form-group>
@@ -38,8 +32,6 @@ export default {
   name: "register-form",
   data() {
     return {
-      firstName: "",
-      lastName: "",
       userName: "",
       email: "",
       password: "",
@@ -55,8 +47,6 @@ export default {
   methods: {
     submit() {
       const payload = {
-        firstName: this.firstName,
-        lastName: this.lastName,
         userName: this.userName,
         email: this.email,
         password: this.password,
@@ -67,8 +57,6 @@ export default {
         .dispatch("register", payload)
         .then(response => {
           this.regErrors = null;
-          this.firstName = "";
-          this.lastName = "";
           this.userName= "",
           this.email = "";
           this.password = "";

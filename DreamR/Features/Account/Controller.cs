@@ -3,6 +3,7 @@ using DreamR.Data;
 using DreamR.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DreamR.Features.Account
 {
@@ -11,6 +12,7 @@ namespace DreamR.Features.Account
   {
     private readonly UserManager<AppUser> _userManager;
 
+  
     public AccountController(UserManager<AppUser> userManager)
     {
       _userManager = userManager;
@@ -28,17 +30,21 @@ namespace DreamR.Features.Account
     if (user != null)
       return BadRequest("A user with that e-mail address already exists!");
 
-    var use = new AppUser
+    user = new AppUser
     {
-      FirstName = model.FirstName,
-      LastName = model.LastName,
       UserName = model.UserName,
       Email = model.Email,
       EmailConfirmed = true,      
       LockoutEnabled = true
     };
+    if(!model.Password.Any(char.IsUpper))
+      return BadRequest("Password requires at least one uppercase letter");
+    if(!model.Password.Any(char.IsSymbol))
+      return BadRequest("Password requires at least one special character");
+    if(!model.Password.Any(char.IsDigit))
+      return BadRequest("Password requires at least one digit");
 
-    var registerResult = await _userManager.CreateAsync(user, model.Password);
+    var registerResult = await _userManager.CreateAsync(user, model.Password);   
 
     if (!registerResult.Succeeded)
       return BadRequest(registerResult.Errors);

@@ -88,9 +88,7 @@ namespace DreamR.Features.Authentication
     return new TokenViewModel
     {
       AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-      AccessTokenExpiration = expires,
-      FirstName = user.FirstName,
-      LastName = user.LastName
+      AccessTokenExpiration = expires      
     };
     }
   }

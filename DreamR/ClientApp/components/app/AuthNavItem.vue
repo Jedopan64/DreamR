@@ -2,7 +2,7 @@
   <b-nav-item-dropdown v-if="isAuthenticated" right>
     <template slot="button-content">
       <i class="fas fa-user"></i>
-      {{fullName}}
+      {{userName}}
     </template>
     <b-dropdown-item to="/account">
       <i class="fas fa-user"></i>
