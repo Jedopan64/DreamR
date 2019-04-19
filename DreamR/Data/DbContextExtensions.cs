@@ -15,7 +15,8 @@ namespace DreamR.Data
     public static void EnsureSeeded(this DataContext context)
     {
       AddRoles(context);
-      AddUsers(context);      
+      AddUsers(context);  
+      AddCategory(context);    
     }
 
     private static void AddRoles(DataContext context)
@@ -72,6 +73,21 @@ namespace DreamR.Data
       {
         UserManager.AddToRoleAsync(client, "Customer");
       }
-    }   
+    } 
+
+    public static void AddCategory(DataContext context)
+    {
+      if (context.Category.Any() == false)
+      {
+        var category = new List<string>() { "Travel", "Food", "Sport","Home" };
+
+        category.ForEach(c => context.Category.Add(new Category
+        {
+          CategoryName = c
+        }));
+
+        context.SaveChanges();
+      }
+    }  
   }
 }

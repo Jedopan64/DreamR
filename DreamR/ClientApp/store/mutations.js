@@ -39,3 +39,12 @@ export const registerError = state => {
 export const logout = state => {
   state.auth = null;
 };
+
+export const showAddGoalForm= state => {
+  state.showAuthModal = true;
+};
+
+export const hideAddGoalForm = state => {
+  state.showAuthModal = false;
+};
+

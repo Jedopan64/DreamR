@@ -11,6 +11,9 @@ namespace DreamR.Data{
     {         
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }    
+
+        public DbSet<Category> Category{get;set;}
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

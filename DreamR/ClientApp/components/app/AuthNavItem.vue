@@ -8,6 +8,10 @@
       <i class="fas fa-user"></i>
       My Account
     </b-dropdown-item>
+    <b-dropdown-item @click="addGoal">
+      <i class="fas fa-user"></i>
+      Add Goal
+    </b-dropdown-item>
     <b-dropdown-item @click="logout">
       <i class="fas fa-sign-out-alt"></i>
       Logout
@@ -37,6 +41,9 @@ export default {
           this.$router.push("/");
         }
       });
+    },
+    addGoal(){
+      this.$store.commit("showAddGoalForm");
     }
   }
 };
