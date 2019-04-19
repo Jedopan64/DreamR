@@ -4,7 +4,7 @@
       <i class="fas fa-user"></i>
       {{userName}}
     </template>
-    <b-dropdown-item to="/account">
+    <b-dropdown-item to="/profile">
       <i class="fas fa-user"></i>
       My Account
     </b-dropdown-item>

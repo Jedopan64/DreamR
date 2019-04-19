@@ -14,6 +14,7 @@ Vue.use(VueToastr, {
 
 //import page components
 import axios from "axios";
+import UserProfilePage from "./components/app/UserProfilePage.vue";
 
 const initialStore = localStorage.getItem("store");
 
@@ -27,6 +28,7 @@ if (initialStore) {
 }
 
 const routes = [
+  { path: "/profile", component: UserProfilePage, meta:{requiresAuth:true}}
   
 ];
 
