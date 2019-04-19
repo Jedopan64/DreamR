@@ -4,6 +4,8 @@ using DreamR.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Security.Claims;
+using System;
 
 namespace DreamR.Features.Goals
 {
@@ -26,16 +28,29 @@ namespace DreamR.Features.Goals
 
     var goal = new Goal
     {
-      Title = model.Title;
+      Title = model.Title,
+      Category = model.Category,
+      Placed = model.Placed,
+      DeadLine = model.DeadLine,
+      Description = model.Description,
+      IsCompleted = model.IsCompleted,
+      IsPrivate = model.IsPrivate
     };
     
 
-    var registerResult = await _userManager.CreateAsync(user, model.Password);   
+     db.Goal.Add(goal);   
+     await db.SaveChangesAsync();
 
-    if (!registerResult.Succeeded)
-      return BadRequest(registerResult.Errors);
+    var userId =  User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-    await _userManager.AddToRoleAsync(user, "Customer");
+    var usergoal = new UsersGoal
+    {
+      GoalId = goal.GoalId,   
+      UserId = Int32.Parse(userId)
+    };
+
+    db.UsersGoal.Add(usergoal);
+    await db.SaveChangesAsync();
 
     return Ok();
   }

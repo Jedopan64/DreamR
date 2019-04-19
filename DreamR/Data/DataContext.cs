@@ -13,10 +13,15 @@ namespace DreamR.Data{
         { }    
 
         public DbSet<Category> Category{get;set;}
+        public DbSet<Goal> Goal{get;set;}
+        public DbSet<UsersGoal> UsersGoal{get;set;}
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<UsersGoal>()
+            .HasKey(c => new { c.GoalId, c.UserId });
         
         }  
 

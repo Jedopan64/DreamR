@@ -1,3 +1,7 @@
+using DreamR.Data.Entities;
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DreamR.Features.Goals
 {
     public class AddGoalViewModel
@@ -6,7 +10,7 @@ namespace DreamR.Features.Goals
         [StringLength(100)]
         public string Title{get;set;}
         [Required]
-        public string Category{get;set;}    
+        public Category Category{get;set;}    
 
         [Required]
         public DateTime Placed { get; set; } = DateTime.UtcNow;
