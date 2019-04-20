@@ -41,10 +41,14 @@ export const logout = state => {
 };
 
 export const showAddGoalForm= state => {
-  state.showAuthModal = true;
+  state.showAddGoalForm = true;
 };
 
 export const hideAddGoalForm = state => {
-  state.showAuthModal = false;
+  state.showAddGoalForm = false;
+};
+
+export const addGoalToList = (state, goal) => {
+  state.goalList.push(goal);
 };
 
