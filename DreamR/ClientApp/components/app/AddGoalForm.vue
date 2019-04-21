@@ -23,7 +23,8 @@
     </b-form-group>
     <b-form-group>
       <b-form-checkbox v-model="isCompleted" type="checkbox">Completed</b-form-checkbox>
-    
+    </b-form-group>   
+    <b-form-group>   
       <b-form-checkbox v-model="isPrivate" type="checkbox">Private</b-form-checkbox>
     </b-form-group>          
     <b-form-group>      
@@ -70,7 +71,7 @@ export default {
         deadLine: this.deadLine,
         description: this.description,
         isCompleted: this.isCompleted,
-        isPrivate: this.isCompleted
+        isPrivate: this.isPrivate
       };
 
       this.$store

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace DreamR.Features.Goals
 {
@@ -37,7 +40,7 @@ namespace DreamR.Features.Goals
     var goal = new Goal
     {
       Title = model.Title,
-      CategoryId = db.Category.Single(c => c.CategoryName== model.Category).CategoryId,
+      Category = db.Category.Single(c => c.CategoryName== model.Category),
       Placed = model.Placed,
       DeadLine = model.DeadLine,
       Description = model.Description,
@@ -49,12 +52,12 @@ namespace DreamR.Features.Goals
      db.Goal.Add(goal);   
      await db.SaveChangesAsync();
 
-    var userId =  User.FindFirst(ClaimTypes.NameIdentifier).Value;
+    var user = await db.Users.SingleAsync(x => x.UserName == HttpContext.User.Identity.Name);
 
     var usergoal = new UsersGoal
     {
-      GoalId = goal.GoalId,   
-      UserId = Int32.Parse(userId)
+      Goal = goal,   
+      AppUser = user
     };
 
     db.UsersGoal.Add(usergoal);

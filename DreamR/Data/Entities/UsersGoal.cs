@@ -7,10 +7,12 @@ namespace DreamR.Data.Entities
     public class UsersGoal
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserGoalyId{get;set;}
         [Required]
         public int GoalId{get;set;}
         public Goal Goal{get;set;}
-        [Key]        
+              
         [Required]
         [ForeignKey("AppUser")]
         public int UserId{get;set;}

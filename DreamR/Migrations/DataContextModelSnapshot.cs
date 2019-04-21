@@ -142,15 +142,17 @@ namespace DreamR.Migrations
 
             modelBuilder.Entity("DreamR.Data.Entities.UsersGoal", b =>
                 {
+                    b.Property<int>("UserGoalyId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("GoalId");
 
                     b.Property<int>("UserId");
 
-                    b.Property<int?>("GoalId1");
+                    b.HasKey("UserGoalyId");
 
-                    b.HasKey("GoalId", "UserId");
-
-                    b.HasIndex("GoalId1");
+                    b.HasIndex("GoalId");
 
                     b.HasIndex("UserId");
 
@@ -252,7 +254,8 @@ namespace DreamR.Migrations
                 {
                     b.HasOne("DreamR.Data.Entities.Goal", "Goal")
                         .WithMany()
-                        .HasForeignKey("GoalId1");
+                        .HasForeignKey("GoalId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DreamR.Data.Entities.AppUser", "AppUser")
                         .WithMany()
