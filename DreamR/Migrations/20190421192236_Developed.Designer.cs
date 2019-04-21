@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DreamR.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190418145405_Initial")]
-    partial class Initial
+    [Migration("20190421192236_Developed")]
+    partial class Developed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,6 +98,69 @@ namespace DreamR.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("DreamR.Data.Entities.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(15);
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("DreamR.Data.Entities.Goal", b =>
+                {
+                    b.Property<int>("GoalId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<DateTime>("DeadLine");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsCompleted");
+
+                    b.Property<bool>("IsPrivate");
+
+                    b.Property<DateTime>("Placed");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("GoalId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Goal");
+                });
+
+            modelBuilder.Entity("DreamR.Data.Entities.UsersGoal", b =>
+                {
+                    b.Property<int>("UserGoalyId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GoalId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("UserGoalyId");
+
+                    b.HasIndex("GoalId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UsersGoal");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -179,6 +242,27 @@ namespace DreamR.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("DreamR.Data.Entities.Goal", b =>
+                {
+                    b.HasOne("DreamR.Data.Entities.Category", "Category")
+                        .WithMany("Goals")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DreamR.Data.Entities.UsersGoal", b =>
+                {
+                    b.HasOne("DreamR.Data.Entities.Goal", "Goal")
+                        .WithMany()
+                        .HasForeignKey("GoalId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DreamR.Data.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

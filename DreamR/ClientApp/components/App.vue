@@ -14,24 +14,30 @@
       <router-view />
     </transition>
 
-    <auth-modal :show="showAuthModal" />
+    <auth-modal :show="showAuthModal" />    
+    <add-goal-form :show="showAddGoalForm" />  
   </div>
 </template>
 
 <script>
 import AuthModal from "./app/AuthModal.vue";
 import AuthNavItem from "./app/AuthNavItem.vue";
+import AddGoalForm from "./app/AddGoalForm.vue";
 
 export default {
   name: "app",
   components: {    
     AuthModal,
-    AuthNavItem,    
+    AuthNavItem,  
+    AddGoalForm,    
   },
   computed: {
     showAuthModal() {
       return this.$store.state.showAuthModal;
-    }
+    },
+    showAddGoalForm() {
+      return this.$store.state.showAddGoalForm;
+    }  
   }
 };
 </script>

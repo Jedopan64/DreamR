@@ -19,9 +19,7 @@ namespace DreamR.Data{
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<UsersGoal>()
-            .HasKey(c => new { c.GoalId, c.UserId });
+            
         
         }  
 

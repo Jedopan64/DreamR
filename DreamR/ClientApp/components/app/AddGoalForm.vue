@@ -1,35 +1,51 @@
 <template>
+ <b-modal v-model="show" hide-header hide-footer no-close-on-backdrop no-close-on-esc>
    <form @submit.prevent="submit" class="p-2">
     <b-alert variant="danger" :show="regErrors !== null" dismissible @dismissed="regErrors = null">
       <div v-for="(error, index) in regErrors" :key="index">{{ error[0] }}</div>
     </b-alert>
     <b-form-group label="Title">
       <b-form-input v-model.trim="title" />
-    </b-form-group>
-    <b-form-group label="Category">    
-      <b-form-select v-model="category" class="mb-3"> />
-          <option>Tent</option>>
-          <option>Garage</option>
-    </b-form-group>
-    <b-form-group label="Password">
-      <b-form-input v-model.trim="password" type="password" />
-    </b-form-group>
-    <b-form-group label="Confirm Password">
-      <b-form-input v-model.trim="confirmPassword" 
-      type="password" />
+    </b-form-group>   
+    <b-form-group label="Category">
+      <b-form-select v-model.trim="category">
+        <option>Travel</option>
+        <option>Food</option>
+        <option>Sport</option>
+        <option>Home</option>     
+      </b-form-select>
+    </b-form-group> 
+    <b-form-group label="Dead Line">
+      <date-picker v-model="deadLine" lang="eng" type="date" format="dd.MM.YYYY"></date-picker>
+    </b-form-group> 
+    <b-form-group label="Description">
+      <b-form-textarea v-model.trim="description" rows=3></b-form-textarea>
     </b-form-group>
     <b-form-group>
+      <b-form-checkbox v-model="isCompleted" type="checkbox">Completed</b-form-checkbox>
+    </b-form-group>   
+    <b-form-group>   
+      <b-form-checkbox v-model="isPrivate" type="checkbox">Private</b-form-checkbox>
+    </b-form-group>          
+    <b-form-group>      
       <b-button variant="primary" type="submit"  
-      :disabled="loading">Register</b-button>
+      :disabled="loading">Add</b-button>
       <b-button variant="default" @click="close" 
       :disabled="loading">Cancel</b-button>
     </b-form-group>
   </form>
+ </b-modal>
 </template>
 
+
 <script>
-export default {
+import DatePicker from 'vue2-datepicker'
+
+export default {  
   name: "add-goal-form",  
+  components: {
+    DatePicker
+  },
   props: {
     show: {
       type: Boolean,
@@ -38,17 +54,49 @@ export default {
   },
   data() {
     return {
-      index: 0,
-      registered: false
+      title:"",
+      category:"",
+      deadLine: "",
+      description: "",
+      isCompleted: false,
+      isPrivate: false,
+      regError: null                
     };
-  },
-  methods: {
-    success() {
-      this.registered = true;
-      this.index = 0;
+  },   
+  methods: {     
+      submit() {
+      const payload = {
+        title: this.title,
+        category: this.category,
+        deadLine: this.deadLine,
+        description: this.description,
+        isCompleted: this.isCompleted,
+        isPrivate: this.isPrivate
+      };
+
+      this.$store
+        .dispatch("addGoal", payload)
+        .then(response => {
+          this.regErrors = null;
+          this.title= "",
+          this.category= "";
+          this.deadLine = "";
+          this.isPrivate= false;
+          this.isCompleted=false;
+          this.$emit("success");
+        })
+        .catch(error => {
+          if (typeof error.data === "string" || error.data instanceof String) {
+            this.regErrors = { error: [error.data] };
+          } else {
+            this.regErrors = error.data;
+          }
+        });
     },
     close() {
-      this.$store.commit("hideAuthModal");
+      this.regErrors = null;      
+      this.$store.commit("hideAddGoalForm");
+      this.$emit("close");
       let query = Object.assign({}, this.$route.query);
       delete query.redirect;
       this.$router.push({ query: query });
@@ -56,5 +104,11 @@ export default {
   }
 };
 </script>
+
+<style>
+textarea {
+  resize: none;
+}
+</style>
 
 
