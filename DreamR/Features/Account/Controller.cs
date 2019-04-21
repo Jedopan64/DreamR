@@ -43,6 +43,8 @@ namespace DreamR.Features.Account
       return BadRequest("Password requires at least one special character");
     if(!model.Password.Any(char.IsDigit))
       return BadRequest("Password requires at least one digit");
+    if(!model.Password.Any(char.IsLower))
+      return BadRequest("Password requires at least one lowercase letter");
 
     var registerResult = await _userManager.CreateAsync(user, model.Password);   
 

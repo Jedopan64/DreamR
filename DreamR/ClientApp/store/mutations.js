@@ -48,7 +48,18 @@ export const hideAddGoalForm = state => {
   state.showAddGoalForm = false;
 };
 
+export const addGoalRequest = state =>{
+  state.loading = true;
+};
+export const addGoalSuccess = state =>{
+  state.loading = false;
+};
+export const addGoalError = state =>{
+  state.loading=false;
+};
+/*
 export const addGoalToList = (state, goal) => {
   state.goalList.push(goal);
 };
+*/
 

@@ -10,14 +10,14 @@ namespace DreamR.Features.Goals
         [StringLength(100)]
         public string Title{get;set;}
         [Required]
-        public Category Category{get;set;}    
+        public string Category{get;set;}    
 
         [Required]
         public DateTime Placed { get; set; } = DateTime.UtcNow;
         [Required]
         public DateTime DeadLine{get;set;}
 
-        public string Description{get;set;}
+        public string Description{get;set;}       
 
         [Required]
         public bool IsPrivate{get;set;}

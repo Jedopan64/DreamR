@@ -38,6 +38,22 @@ export const register = ({ commit }, payload) => {
   });
 };
 
+export const addGoal = ({ commit }, payload) => {
+  return new Promise((resolve, reject) => {
+    commit("addGoalRequest");
+    axios
+      .post("/api/goals", payload)
+      .then(response => {
+        commit("addGoalSuccess");
+        resolve(response);
+      })
+      .catch(error => {
+        commit("addGoalError");
+        reject(error.response);
+      });
+  });
+};
+
 export const logout = ({ commit }) => {
   commit("logout");
   delete axios.defaults.headers.common["Authorization"];

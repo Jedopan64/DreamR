@@ -15,7 +15,8 @@ const store = new Vuex.Store({
   state: {
     auth: null,
     showAuthModal: false,
-    loading: false,    
+    loading: false,  
+    showAddGoalForm: false,
   }
 });
 

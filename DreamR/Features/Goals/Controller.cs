@@ -24,12 +24,20 @@ namespace DreamR.Features.Goals
   public async Task<IActionResult> AddGoal([FromBody] AddGoalViewModel model)
   {
     if (!ModelState.IsValid)
-      return BadRequest(ModelState);
+      return BadRequest(ModelState);  
+      
+    Console.WriteLine(db.Category.Single(c => c.CategoryName== model.Category).CategoryId);    
+    Console.WriteLine(model.Placed);  
+    Console.WriteLine(model.DeadLine); 
+    Console.WriteLine(model.IsCompleted);
+     Console.WriteLine(model.Title);  
+    Console.WriteLine(model.IsPrivate); 
+    Console.WriteLine(model.Description); 
 
     var goal = new Goal
     {
       Title = model.Title,
-      Category = model.Category,
+      CategoryId = db.Category.Single(c => c.CategoryName== model.Category).CategoryId,
       Placed = model.Placed,
       DeadLine = model.DeadLine,
       Description = model.Description,
