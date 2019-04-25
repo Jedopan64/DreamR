@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.Web;
+
 
 namespace DreamR.Data.Entities
 {
@@ -11,7 +13,8 @@ namespace DreamR.Data.Entities
         public int GoalImageId{get;set;}
         [Required]
         [StringLength(15)]
-        public string GoalImagePath{get;set;}
+        public string GoalImagePath{get;set;}        
+        
     }
 }
 

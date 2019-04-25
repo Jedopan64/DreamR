@@ -16,10 +16,16 @@
       </b-form-select>
     </b-form-group> 
     <b-form-group label="Dead Line">
-      <date-picker v-model="deadLine" lang="eng" type="date" format="dd.MM.YYYY"></date-picker>
+      <date-picker v-model="deadLine" lang="eng" type="date" format="DD/MM/YYYY"></date-picker>
     </b-form-group> 
     <b-form-group label="Description">
       <b-form-textarea v-model.trim="description" rows=3></b-form-textarea>
+    </b-form-group>    
+    <b-form-group label="Add picture">
+      <b-form-file v-model="goalImageFile" id="goalImageFile" name="goalImageFile" type="file" accept="image/image/x-png,image/png,image/jpeg,image/jpg" @change="onFilePicked"></b-form-file>
+    </b-form-group>
+    <b-form-group>
+      <b-img :src="goalImageURL" height="150" width="150"></b-img>
     </b-form-group>
     <b-form-group>
       <b-form-checkbox v-model="isCompleted" type="checkbox">Completed</b-form-checkbox>
@@ -29,7 +35,7 @@
     </b-form-group>          
     <b-form-group>      
       <b-button variant="primary" type="submit"  
-      :disabled="loading">Add</b-button>
+      :disabled="loading">Add</b-button>      
       <b-button variant="default" @click="close" 
       :disabled="loading">Cancel</b-button>
     </b-form-group>
@@ -60,16 +66,40 @@ export default {
       description: "",
       isCompleted: false,
       isPrivate: false,
+      goalImageURL: "",
+      goalImageFile: null,          
       regError: null                
     };
   },   
   methods: {     
-      submit() {
-      const payload = {
+      submit() {    
+
+        
+        const payload2 = {       
+        goalImageFile: this.goalImageFile,           
+       };
+
+      this.$store
+        .dispatch("addImage", payload2)
+        .then(response => {
+          this.regErrors = null;          
+          this.goalImageFile=null;                        
+          this.$emit("success");
+        })
+        .catch(error => {
+          if (typeof error.data === "string" || error.data instanceof String) {
+            this.regErrors = { error: [error.data] };
+          } else {
+            this.regErrors = error.data;
+          }
+        });        
+        
+        const payload = {
         title: this.title,
         category: this.category,
         deadLine: this.deadLine,
         description: this.description,
+        goalImageFile: this.goalImageFile,             
         isCompleted: this.isCompleted,
         isPrivate: this.isPrivate
       };
@@ -81,6 +111,7 @@ export default {
           this.title= "",
           this.category= "";
           this.deadLine = "";
+          this.goalImageFile=null;                           
           this.isPrivate= false;
           this.isCompleted=false;
           this.$emit("success");
@@ -91,8 +122,33 @@ export default {
           } else {
             this.regErrors = error.data;
           }
-        });
-    },
+        });   
+    },   
+    onFilePicked (event) {
+        const formData = new FormData()   
+        const files = event.target.files
+        let filename = files[0].name
+        formData.append("file",file[0],file[0].name)
+        this.goalImageFile = formData
+        
+        if (filename.lastIndexOf('.') <= 0) {
+          return alert('Please add a valid file!')
+        }
+        if (filename.lastIndexOf('png') <= 0 && filename.lastIndexOf('jpeg')<=0 && filename.lastIndexOf('jpg')<=0) {
+          return alert('Please add a valid file!')
+        }        
+    
+      
+        const fileReader = new FileReader()             
+        fileReader.addEventListener('load', () => {
+          this.goalImageURL = fileReader.result
+        })        
+        fileReader.readAsBinaryString(files[0])        
+        this.goalImageFile = files[0]
+        
+        
+      },        
+          
     close() {
       this.regErrors = null;      
       this.$store.commit("hideAddGoalForm");
@@ -110,5 +166,3 @@ textarea {
   resize: none;
 }
 </style>
-
-

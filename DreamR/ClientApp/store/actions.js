@@ -54,6 +54,23 @@ export const addGoal = ({ commit }, payload) => {
   });
 };
 
+export const addImage = ({ commit }, payload2) => {
+  return new Promise((resolve, reject) => {
+    commit("addGoalRequest");
+    axios
+      .post("/api/fff", payload2)
+      .then(response => {
+        commit("addGoalSuccess");
+        resolve(response);
+      })
+      .catch(error => {
+        commit("addGoalError");
+        reject(error.response);
+      });
+  });
+};
+
+
 export const logout = ({ commit }) => {
   commit("logout");
   delete axios.defaults.headers.common["Authorization"];

@@ -30,6 +30,11 @@ namespace DreamR.Data
       {
         RoleManager.CreateAsync(new AppRole("Customer")).GetAwaiter().GetResult();
       }
+      
+      if (RoleManager.RoleExistsAsync("Organisation").GetAwaiter().GetResult() == false)
+      {
+        RoleManager.CreateAsync(new AppRole("Organisation")).GetAwaiter().GetResult();
+      }
     }
 
     private static void AddUsers(DataContext context)

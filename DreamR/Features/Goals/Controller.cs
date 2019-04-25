@@ -8,6 +8,15 @@ using System.Security.Claims;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using static System.IO.File;
+using System.Web;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Http;
+using System.Web.Http;
+using System.Net;
+using  Microsoft.AspNetCore.Hosting;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingEnvironment;
 
 
 namespace DreamR.Features.Goals
@@ -16,9 +25,11 @@ namespace DreamR.Features.Goals
   public class GoalsController : Controller
   {  
       private readonly DataContext db;
+      private readonly IHostingEnvironment env;
   
-    public GoalsController(DataContext db)
+    public GoalsController(DataContext db, IHostingEnvironment env)
     {
+      this.env = env;
       this.db = db;
     }
     
@@ -27,16 +38,19 @@ namespace DreamR.Features.Goals
   public async Task<IActionResult> AddGoal([FromBody] AddGoalViewModel model)
   {
     if (!ModelState.IsValid)
-      return BadRequest(ModelState);  
+      return BadRequest(ModelState);    
       
-    Console.WriteLine(db.Category.Single(c => c.CategoryName== model.Category).CategoryId);    
-    Console.WriteLine(model.Placed);  
-    Console.WriteLine(model.DeadLine); 
-    Console.WriteLine(model.IsCompleted);
-     Console.WriteLine(model.Title);  
-    Console.WriteLine(model.IsPrivate); 
-    Console.WriteLine(model.Description); 
+    /*
+    string filename = Path.GetFileNameWithoutExtension(model.GoalImageFile.FileName);
+    string extension = Path.GetExtension(model.GoalImageFile.FileName);
+    filename = filename + DateTime.Now.ToString("yymmssffff")+extension;
+    var webroot = env.WebRootPath;    
+    filename = Path.Combine(webroot,filename);
 
+    model.GoalImageFile.CopyTo(new FileStream(filename, FileMode.Create));  
+    */
+      
+    
     var goal = new Goal
     {
       Title = model.Title,
@@ -62,7 +76,9 @@ namespace DreamR.Features.Goals
 
     db.UsersGoal.Add(usergoal);
     await db.SaveChangesAsync();
+    
 
+    //retrun Json("Goal added!")
     return Ok();
   }
 }
