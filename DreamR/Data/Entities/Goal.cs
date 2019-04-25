@@ -28,9 +28,10 @@ namespace DreamR.Data.Entities
         [Required]
         public bool IsPrivate{get;set;}
         [Required]
-        public bool IsCompleted{get;set;}     
-
-         
+        public bool IsCompleted{get;set;}
+          
+        
+        public string GoalImageBinary{get;set;}
 
         public List<UsersGoal> UsersGoal = new List<UsersGoal>();  
     }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using static System.IO.File;
+using static System.IO.StreamWriter;
 using System.Web;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -38,8 +39,8 @@ namespace DreamR.Features.Goals
   public async Task<IActionResult> AddGoal([FromBody] AddGoalViewModel model)
   {
     if (!ModelState.IsValid)
-      return BadRequest(ModelState);    
-      
+      return BadRequest(ModelState); 
+   
     /*
     string filename = Path.GetFileNameWithoutExtension(model.GoalImageFile.FileName);
     string extension = Path.GetExtension(model.GoalImageFile.FileName);
@@ -49,7 +50,14 @@ namespace DreamR.Features.Goals
 
     model.GoalImageFile.CopyTo(new FileStream(filename, FileMode.Create));  
     */
-      
+    Console.WriteLine(env.WebRootPath);
+    var webroot = env.WebRootPath+"\\uploads\\goalImages"; 
+    string filename = DateTime.Now.ToString("yymmssffff")+".txt";
+    filename = Path.Combine(webroot,filename);
+    using (StreamWriter sw = System.IO.File.CreateText(filename)) 
+            {
+                sw.WriteLine(model.GoalImageBinary);                
+            }	
     
     var goal = new Goal
     {
@@ -58,8 +66,9 @@ namespace DreamR.Features.Goals
       Placed = model.Placed,
       DeadLine = model.DeadLine,
       Description = model.Description,
+      GoalImageBinary = filename,
       IsCompleted = model.IsCompleted,
-      IsPrivate = model.IsPrivate
+      IsPrivate = model.IsPrivate,      
     };
     
 

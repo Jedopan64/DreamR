@@ -1,6 +1,6 @@
 <template>
  <b-modal v-model="show" hide-header hide-footer no-close-on-backdrop no-close-on-esc>
-   <form @submit.prevent="submit" class="p-2">
+   <form @submit.prevent="submit" class="p-2" enctype="multipart/form-data">
     <b-alert variant="danger" :show="regErrors !== null" dismissible @dismissed="regErrors = null">
       <div v-for="(error, index) in regErrors" :key="index">{{ error[0] }}</div>
     </b-alert>
@@ -67,39 +67,20 @@ export default {
       isCompleted: false,
       isPrivate: false,
       goalImageURL: "",
+      goalImageBinary: null,
       goalImageFile: null,          
       regError: null                
     };
   },   
   methods: {     
-      submit() {    
-
-        
-        const payload2 = {       
-        goalImageFile: this.goalImageFile,           
-       };
-
-      this.$store
-        .dispatch("addImage", payload2)
-        .then(response => {
-          this.regErrors = null;          
-          this.goalImageFile=null;                        
-          this.$emit("success");
-        })
-        .catch(error => {
-          if (typeof error.data === "string" || error.data instanceof String) {
-            this.regErrors = { error: [error.data] };
-          } else {
-            this.regErrors = error.data;
-          }
-        });        
-        
+      submit() {                  
         const payload = {
         title: this.title,
         category: this.category,
         deadLine: this.deadLine,
         description: this.description,
-        goalImageFile: this.goalImageFile,             
+        goalImageBinary: this.goalImageBinary, 
+        goalImageURL: this.goalImageURL,            
         isCompleted: this.isCompleted,
         isPrivate: this.isPrivate
       };
@@ -111,7 +92,9 @@ export default {
           this.title= "",
           this.category= "";
           this.deadLine = "";
-          this.goalImageFile=null;                           
+          this.description="";
+          this.goalImageBinary=null;
+          this.goalImageURL="";                           
           this.isPrivate= false;
           this.isCompleted=false;
           this.$emit("success");
@@ -124,12 +107,10 @@ export default {
           }
         });   
     },   
-    onFilePicked (event) {
-        const formData = new FormData()   
+    onFilePicked (event) {           
         const files = event.target.files
-        let filename = files[0].name
-        formData.append("file",file[0],file[0].name)
-        this.goalImageFile = formData
+       
+        let filename = files[0].name             
         
         if (filename.lastIndexOf('.') <= 0) {
           return alert('Please add a valid file!')
@@ -139,11 +120,16 @@ export default {
         }        
     
       
-        const fileReader = new FileReader()             
+        const fileReader = new FileReader()   
+        const fileReader2 = new FileReader()            
         fileReader.addEventListener('load', () => {
-          this.goalImageURL = fileReader.result
-        })        
-        fileReader.readAsBinaryString(files[0])        
+          this.goalImageURL =fileReader.result
+        })     
+        fileReader2.addEventListener('load', () => {
+            this.goalImageBinary =fileReader.result
+        })  
+        fileReader.readAsDataURL(files[0])   
+        fileReader2.readAsBinaryString(files[0])        
         this.goalImageFile = files[0]
         
         

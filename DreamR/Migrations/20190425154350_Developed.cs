@@ -180,7 +180,8 @@ namespace DreamR.Migrations
                     DeadLine = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     IsPrivate = table.Column<bool>(nullable: false),
-                    IsCompleted = table.Column<bool>(nullable: false)
+                    IsCompleted = table.Column<bool>(nullable: false),
+                    GoalImageBinary = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

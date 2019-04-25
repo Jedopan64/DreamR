@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DreamR.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190421192236_Developed")]
+    [Migration("20190425154350_Developed")]
     partial class Developed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,6 +124,8 @@ namespace DreamR.Migrations
                     b.Property<DateTime>("DeadLine");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("GoalImageBinary");
 
                     b.Property<bool>("IsCompleted");
 

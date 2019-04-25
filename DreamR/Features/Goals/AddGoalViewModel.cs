@@ -22,7 +22,10 @@ namespace DreamR.Features.Goals
         [Required]
         public DateTime DeadLine{get;set;}
 
-        public string Description{get;set;}      
+        public string Description{get;set;}    
+
+        public string GoalImageURL{get;set;} 
+        public string GoalImageBinary{get;set;}   
                 
         [Required]
         public bool IsPrivate{get;set;}

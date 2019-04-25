@@ -6,6 +6,7 @@ namespace DreamR.Data.Entities
 {
     public class AppUser : IdentityUser<int>
     {
+        public string UserImageBinary{get;set;}
         public List<UsersGoal> UsersGoal = new List<UsersGoal>();  
     }
 }
