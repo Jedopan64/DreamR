@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DreamR.Features.Account
 {
-  ///<summary>
+  /// <summary>
   /// ViewModel for user registraion
-  ///</summary>
+  /// </summary>
   public class RegisterViewModel
   {
     [Required]
