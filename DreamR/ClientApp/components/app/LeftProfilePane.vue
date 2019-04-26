@@ -5,12 +5,16 @@
         <img v-bind:src="avatar" class="card-avatar card-avatar--circle">
       </div>
       <div class="card-fields">
-        <h2 class="card-name">{{fullName}}</h2>
+        <h2 class="card-name"> {{username}}</h2>
       </div>
     </div>
     <div class="card-fields">
       <p class="card-bio">{{bio}}</p>
     </div>
+        <button v-on:click="editContent" class="card-button card-edit">
+      <i v-show="!isEditing" class="material-icons" aria-hidden="true">create</i>
+      <i v-show="isEditing" class="material-icons" aria-hidden="true">save</i>
+    </button>
   </div>
 </template>
 
@@ -32,14 +36,24 @@ export default {
     fullName() {
       return this.firstName + " " + this.lastName;
     },
+       username(){
+      return `${this.$store.state.auth.email}`;
+    },
+    
 
-    methods: {}
-  }
+  },
+    methods: {
+          
+    }
+  
 };
 </script>
 
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700');
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
 .card {
   background: #fff;
   border-radius: 0.3em;
@@ -94,6 +108,25 @@ export default {
   justify-content: center;
 }
 
+.card-button {
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  user-select: none;  
+  
+}
+
+.card-edit {
+  background: transparent;
+  border-radius: .2em;
+  color: #bbb;
+  padding: .25em;
+  position: absolute;
+  right: .5em;
+  top: .5em;
+
+}
 html {
   box-sizing: border-box;
 }
