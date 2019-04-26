@@ -4,6 +4,10 @@
     <b-alert variant="danger" :show="regErrors !== null" dismissible @dismissed="regErrors = null">
       <div v-for="(error, index) in regErrors" :key="index">{{ error[0] }}</div>
     </b-alert>
+    <b-alert variant="success" :show="added && 
+    regErrors === null">
+      Goal added successfuly.
+    </b-alert>
     <b-form-group label="Title">
       <b-form-input v-model.trim="title" />
     </b-form-group>   
@@ -69,7 +73,8 @@ export default {
       goalImageURL: "",
       goalImageBinary: null,
       goalImageFile: null,          
-      regError: null                
+      regErrors: null,  
+      added: false              
     };
   },   
   methods: {     
@@ -97,7 +102,7 @@ export default {
           this.goalImageURL="";                           
           this.isPrivate= false;
           this.isCompleted=false;
-          this.$emit("success");
+          this.success();
         })
         .catch(error => {
           if (typeof error.data === "string" || error.data instanceof String) {
@@ -105,7 +110,7 @@ export default {
           } else {
             this.regErrors = error.data;
           }
-        });   
+        });         
     },   
     onFilePicked (event) {           
         const files = event.target.files
@@ -133,7 +138,10 @@ export default {
         this.goalImageFile = files[0]
         
         
-      },        
+      }, 
+    success(){
+      this.added = true;
+    },   
           
     close() {
       this.regErrors = null;      

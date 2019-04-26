@@ -6,6 +6,9 @@ using System;
 
 namespace DreamR.Data.Entities
 {
+    /// <summary>
+    /// Goal class Entity
+    /// </summary> 
     public class Goal
     {
         [Key]

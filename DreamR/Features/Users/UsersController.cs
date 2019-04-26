@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DreamR.Features.Users
 {
+  /// <summary>
+  /// Controller for user
+  /// </summary>
   [Authorize]
   [Route("api/[controller]")]
   public class UsersController : Controller
@@ -16,7 +19,9 @@ namespace DreamR.Features.Users
     {
       _db = db;
     }
-
+    /// <summary>
+    /// Returns user
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> Get()
     {

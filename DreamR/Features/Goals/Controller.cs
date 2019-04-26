@@ -22,73 +22,78 @@ using static Microsoft.AspNetCore.Hosting.Internal.HostingEnvironment;
 
 namespace DreamR.Features.Goals
 {
+  /// <summary>
+  /// Controller for Goals
+  /// </summary>
   [Route("api/[controller]")]
   public class GoalsController : Controller
   {  
       private readonly DataContext db;
       private readonly IHostingEnvironment env;
-  
+
+    /// <summary>
+    /// Used for injecting dependencies for GoalController
+    /// </summary>
+    /// <parma name="db">Type='DataContext'. Loads and manages database entities</param>
+    /// <parma name="env">Type='IHostingEnvironment'. Provides information about the web hosting environment an application is running in</param>
     public GoalsController(DataContext db, IHostingEnvironment env)
     {
       this.env = env;
       this.db = db;
     }
     
-
-  [HttpPost]
-  public async Task<IActionResult> AddGoal([FromBody] AddGoalViewModel model)
-  {
-    if (!ModelState.IsValid)
-      return BadRequest(ModelState); 
-   
-    /*
-    string filename = Path.GetFileNameWithoutExtension(model.GoalImageFile.FileName);
-    string extension = Path.GetExtension(model.GoalImageFile.FileName);
-    filename = filename + DateTime.Now.ToString("yymmssffff")+extension;
-    var webroot = env.WebRootPath;    
-    filename = Path.Combine(webroot,filename);
-
-    model.GoalImageFile.CopyTo(new FileStream(filename, FileMode.Create));  
-    */
-    Console.WriteLine(env.WebRootPath);
-    var webroot = env.WebRootPath+"\\uploads\\goalImages"; 
-    string filename = DateTime.Now.ToString("yymmssffff")+".txt";
-    filename = Path.Combine(webroot,filename);
-    using (StreamWriter sw = System.IO.File.CreateText(filename)) 
-            {
-                sw.WriteLine(model.GoalImageBinary);                
-            }	
-    
-    var goal = new Goal
+    /// <summary>
+    /// Add goal and assign it to user
+    /// </summary>
+    /// <parma name="model">Type='AddGoalViewModel'. Contenins Goal data given by user</param>
+    [HttpPost]
+    public async Task<IActionResult> AddGoal([FromBody] AddGoalViewModel model)
     {
-      Title = model.Title,
-      Category = db.Category.Single(c => c.CategoryName== model.Category),
-      Placed = model.Placed,
-      DeadLine = model.DeadLine,
-      Description = model.Description,
-      GoalImageBinary = filename,
-      IsCompleted = model.IsCompleted,
-      IsPrivate = model.IsPrivate,      
-    };
-    
+      if (!ModelState.IsValid)
+        return BadRequest(ModelState); 
 
-     db.Goal.Add(goal);   
-     await db.SaveChangesAsync();
+      string filename="";
+      if(model.GoalImageBinary!=null)
+      {
+      var webroot = env.WebRootPath+"\\uploads\\goalImages"; 
+      filename = DateTime.Now.ToString("yymmssffff")+".txt";
+      filename = Path.Combine(webroot,filename);
+      using (StreamWriter sw = System.IO.File.CreateText(filename)) 
+              {
+                  sw.WriteLine(model.GoalImageBinary);                
+              }	
+      }
+      
+      var goal = new Goal
+      {
+        Title = model.Title,
+        Category = db.Category.Single(c => c.CategoryName== model.Category),
+        Placed = model.Placed,
+        DeadLine = model.DeadLine,
+        Description = model.Description,
+        GoalImageBinary = filename,
+        IsCompleted = model.IsCompleted,
+        IsPrivate = model.IsPrivate,      
+      };
+      
 
-    var user = await db.Users.SingleAsync(x => x.UserName == HttpContext.User.Identity.Name);
+      db.Goal.Add(goal);   
+      await db.SaveChangesAsync();
 
-    var usergoal = new UsersGoal
-    {
-      Goal = goal,   
-      AppUser = user
-    };
+      var user = await db.Users.SingleAsync(x => x.UserName == HttpContext.User.Identity.Name);
 
-    db.UsersGoal.Add(usergoal);
-    await db.SaveChangesAsync();
-    
+      var usergoal = new UsersGoal
+      {
+        Goal = goal,   
+        AppUser = user
+      };
 
-    //retrun Json("Goal added!")
-    return Ok();
-  }
+      db.UsersGoal.Add(usergoal);
+      await db.SaveChangesAsync();
+      
+
+      //retrun Json("Goal added!")
+      return Ok();
+    }
 }
 }

@@ -7,7 +7,11 @@ using DreamR.Data.Entities;
 
 
 namespace DreamR.Data{
- public class DataContext : IdentityDbContext<AppUser, AppRole, int>
+    /// <summary>
+    /// Entity Framework database context class.
+    /// Provides communication with database.
+    /// </summary>
+    public class DataContext : IdentityDbContext<AppUser, AppRole, int>
     {         
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }    
