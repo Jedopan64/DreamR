@@ -5,10 +5,11 @@ import BootstrapVue from "bootstrap-vue";
 import NProgress from "nprogress";
 import VueToastr from "@deveodk/vue-toastr";
 import "@deveodk/vue-toastr/dist/@deveodk/vue-toastr.css";
-
+import VeeValidate from "vee-validate";
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
+Vue.use(VeeValidate);
 Vue.use(VueToastr, {
   defaultPosition: "toast-top-right"
 });
@@ -16,6 +17,9 @@ Vue.use(VueToastr, {
 //import page components
 import axios from "axios";
 import UserProfilePage from "./components/app/UserProfilePage.vue";
+import Donation from "./pages/Donation.vue";
+
+
 
 const initialStore = localStorage.getItem("store");
 
@@ -29,7 +33,9 @@ if (initialStore) {
 }
 
 const routes = [
-  { path: "/profile", component: UserProfilePage, meta:{requiresAuth:true}}
+  { path: "/profile", component: UserProfilePage, meta:{requiresAuth:true}},
+  { path: "/donation", component: Donation, meta:
+  { requiresAuth: true } },
   
 ];
 

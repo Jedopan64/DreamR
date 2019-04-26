@@ -24,6 +24,7 @@
     "node-sass": "^4.11.0",
     "nprogress": "^0.2.0",
     "sass-loader": "^7.1.0",
+    "vee-validate": "^2.2.4",
     "velocity-animate": "^1.5.2",
     "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-slider-component": "^3.0.25",

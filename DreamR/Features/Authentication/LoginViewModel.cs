@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DreamR.Features.Authentication
 {
+  ///<summary>
+  /// ViewModel for user authentication
+  ///</summary>
   public class LoginViewModel
   {
     [Required]

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace DreamR.Data.Entities
 {
+    /// <summary>
+    /// Category class Entity
+    /// </summary> 
     public class Category
     {
         [Key]

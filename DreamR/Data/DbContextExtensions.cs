@@ -7,11 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DreamR.Data
 {
+  /// <summary>
+  /// Seed data in database
+  /// </summary>
   public static class DbContextExtensions
   {
     public static RoleManager<AppRole> RoleManager { get; set; }
     public static UserManager<AppUser> UserManager { get; set; }
 
+    /// <summary>
+    /// Seed data in database
+    /// </summary>
+    /// <parm name="context">DataContext</parm>
     public static void EnsureSeeded(this DataContext context)
     {
       AddRoles(context);
@@ -19,6 +26,10 @@ namespace DreamR.Data
       AddCategory(context);    
     }
 
+    /// <summary>
+    /// Seed roles in database
+    /// </summary>
+    /// <parm name="context">DataContext</parm>
     private static void AddRoles(DataContext context)
     {
       if (RoleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult() == false)
@@ -37,6 +48,10 @@ namespace DreamR.Data
       }
     }
 
+    /// <summary>
+    /// Seed users in database
+    /// </summary>
+    /// <parm name="context">DataContext</parm>
     private static void AddUsers(DataContext context)
     {
       if (UserManager.FindByEmailAsync("johnSmith@gmail.com").GetAwaiter().GetResult() == null)
@@ -80,6 +95,10 @@ namespace DreamR.Data
       }
     } 
 
+    /// <summary>
+    /// Seed category in database
+    /// </summary>
+    /// <parm name="context">DataContext</parm>
     public static void AddCategory(DataContext context)
     {
       if (context.Category.Any() == false)

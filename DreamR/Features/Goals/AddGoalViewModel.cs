@@ -8,6 +8,9 @@ using System.Web.Http;
 
 namespace DreamR.Features.Goals
 {
+    /// <summary>
+    /// ViewModel for creating Goal
+    /// </summary>
     public class AddGoalViewModel
     {
         

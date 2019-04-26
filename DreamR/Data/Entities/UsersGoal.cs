@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DreamR.Data.Entities
 {
+    /// <summary>
+    /// Class Entity that contains user and goal keys
+    /// </summary>    
     public class UsersGoal
     {
         [Key]
