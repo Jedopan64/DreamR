@@ -9,25 +9,24 @@
         <hr>
         <h2>Zrealizowane/niezrealizowane</h2>
         <hr>
-        <goal-list></goal-list>
+        <DreamList></DreamList>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import GoalList from "./GoalList.vue";
 import axios from "axios";
 import LeftProfilePane from "./LeftProfilePane.vue";
+import DreamList from "./DreamList.vue"
 export default {
   name: "profile",
   components: {
     LeftProfilePane,
-    GoalList
+    DreamList
   },
   data() {
     return {
-      dreams: null
     };
   },
   computed: {
